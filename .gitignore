@@ -1,8 +1,8 @@
 # Byte-compiled / optimized / DLL files
+.idea/
 __pycache__/
 *.py[cod]
 *$py.class
-
 # C extensions
 *.so
 
@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Docker
+.devcontainer
+
+bucket.json
+service_key_job_dev.json
+*.json
+.vscode/
