@@ -12,3 +12,4 @@ PyJWT==2.4.0
 
 # sentry
 sentry-sdk
+firebase=5.4.0
