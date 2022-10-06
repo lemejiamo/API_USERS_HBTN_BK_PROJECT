@@ -2,14 +2,10 @@ fastapi==0.78.0
 google-auth==2.6.6
 google-cloud-storage==2.4.0
 pandas==1.4.2
-protobuf==4.21.1
 pydantic==1.9.1
 python-dotenv==0.20.0
 python-multipart==0.0.5
 requests==2.27.1
 uvicorn==0.17.6
 PyJWT==2.4.0
-
-# sentry
-sentry-sdk
-firebase=5.4.0
+firebase==3.0.1
