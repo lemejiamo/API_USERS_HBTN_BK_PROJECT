@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from settings import Settings
 from models.user import LoginModel, UserModel, TokenCreateModel
-from clients.user import get_by_email_client, create_object_client, update_object_client
+from clients.user import get_by_email_client, create_object_client, update_password_client
 from utils.token import write_token, validate_token
 from datetime import datetime
 
@@ -56,7 +56,7 @@ def update_password_service(data: UserModel):
     if check_user.status_code == status.HTTP_200_OK:
         json_data = jsonable_encoder(data)
         user_id = list(check_user.json().keys())[0]
-        response = update_object_client(json_data, user_id)
+        response = update_password_client(json_data, user_id)
         return response
     else:
         return "User not found"

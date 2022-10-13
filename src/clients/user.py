@@ -45,7 +45,7 @@ def create_object_client(json_object):
         )
 
 
-def update_object_client(json_object, user_id: str):
+def update_password_client(json_object, user_id: str):
     request_url = f"{settings.CRUD_API_URL}/user/update/password/user/{user_id}"
     email = json_object["email"]
     response = requests.patch(
