@@ -41,7 +41,7 @@ def login_controller(data: LoginModel):
         return json_response
 
 @router.post(
-    "/regist/",
+    "/register/",
     status_code=status.HTTP_200_OK,
     summary="get a single user record from database",
 )
@@ -65,7 +65,7 @@ def register_controller(
         return json_response
 
 @router.patch(
-    "/change_password/",
+    "/update/password/",
     status_code=status.HTTP_201_CREATED,
     summary="create a single user record in database",
 )

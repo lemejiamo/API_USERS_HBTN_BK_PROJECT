@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.openapi.docs import get_swagger_ui_html
 
 import controllers.user as user
 
@@ -12,7 +13,6 @@ app = FastAPI(
     title="Login API",
     description="API to login a user",
     version="0.1.0",
-    root_path=settings.ROOT_PATH,
 )
 
 app.add_middleware(

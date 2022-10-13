@@ -1,0 +1,7 @@
+en google cloud:
+
+gcloud auth configure-docker
+
+docker tag api_users_hbtn_bk_project_core_api:latest gcr.io/price-hbtn-project/api-login:tag1
+
+docker push gcr.io/price-hbtn-project/api-login:tag1

@@ -31,10 +31,8 @@ def create_object_client(json_object):
         url=request_url, json=json_object
     )
 
-    if response.status_code == status.HTTP_201_CREATED:
-        return response.json()
-    elif response.status_code == status.HTTP_406_NOT_ACCEPTABLE:
-        return {}
+    if response.status_code == status.HTTP_201_CREATED or response.status_code == status.HTTP_406_NOT_ACCEPTABLE:
+        return response
     else:
         raise HTTPException(
             status_code=status.HTTP_424_FAILED_DEPENDENCY,
@@ -46,16 +44,14 @@ def create_object_client(json_object):
 
 
 def update_password_client(json_object, user_id: str):
-    request_url = f"{settings.CRUD_API_URL}/user/update/password/user/{user_id}"
+    request_url = f"{settings.CRUD_API_URL}/user/update/password/user/id/{user_id}"
     email = json_object["email"]
     response = requests.patch(
         url=request_url, json=json_object
     )
 
-    if response.status_code == status.HTTP_200_OK:
-        return response.json()
-    elif response.status_code == status.HTTP_404_NOT_FOUND:
-        return {}
+    if response.status_code == status.HTTP_202_ACCEPTED or response.status_code == status.HTTP_404_NOT_FOUND:
+        return response
     else:
         raise HTTPException(
             status_code=status.HTTP_424_FAILED_DEPENDENCY,

@@ -7,12 +7,8 @@ load_dotenv()
 
 class Settings:
     PORT = int(os.getenv("PORT", 8000))
-    MACHINE = os.getenv("MACHINE")
 
-    if MACHINE == "GCP":
-        ROOT_PATH = "/login"
-    else:
-        ROOT_PATH = ""
+    ROOT_PATH = "/login"
 
     BASE_URL = os.getenv("BASE_URL")
     CRUD_RAW_URL = os.getenv("USERS_RAW_URL")
