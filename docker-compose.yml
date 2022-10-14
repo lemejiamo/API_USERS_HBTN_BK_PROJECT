@@ -5,6 +5,4 @@ services:
       image: api-login:latest
       container_name: api-login-container
       ports:
-          - "8000:8000"
-      volumes:
-          - ./app/:/app
+          - "80:80"
