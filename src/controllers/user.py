@@ -1,13 +1,14 @@
-import logging
-from fastapi import APIRouter, status, Body
+from fastapi import APIRouter, status
+from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from models.user import LoginModel, UserModel, TokenCreateModel, ChangePasswordModel
+
+from models.user import ChangePasswordModel, LoginModel, TokenCreateModel, UserModel
 from services.user import (
+    create_token_service,
     login_service,
     register_service,
     update_password_service,
-    create_token_service,
-    validate_token_service
+    validate_token_service,
 )
 from settings import Settings
 
@@ -18,6 +19,7 @@ router = APIRouter(
     tags=["Login"],
 )
 
+
 @router.post(
     "/",
     status_code=status.HTTP_200_OK,
@@ -25,55 +27,55 @@ router = APIRouter(
 )
 def login_controller(data: LoginModel):
     """
-    get all users records from database
+    Allows the user to login to the app
     Args:
-        user_id (str): user's user id
+        data (LoginModel): user's email and password
     Returns:
         JSON Response
     """
     json_response = login_service(data)
     if type(json_response) is str:
         return JSONResponse(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            content={"detail":json_response}
+            status_code=status.HTTP_401_UNAUTHORIZED, content={"detail": json_response}
         )
     else:
         return json_response
 
+
 @router.post(
     "/register/",
-    status_code=status.HTTP_200_OK,
-    summary="get a single user record from database",
+    status_code=status.HTTP_201_CREATED,
+    summary="Register to the App",
 )
 def register_controller(
     data: UserModel,
 ):
     """
-    get a single user record from database
+    Create a new user at DB
     Args:
-        user_id (str): user's user id
+        data (UserModel): user's info
     Returns:
         JSON Response
     """
     json_response = register_service(data)
     if type(json_response) is str:
         return JSONResponse(
-            status_code=status.HTTP_409_CONFLICT,
-            content={"detail":json_response}
+            status_code=status.HTTP_409_CONFLICT, content={"detail": json_response}
         )
     else:
         return json_response
 
+
 @router.patch(
     "/update/password/",
-    status_code=status.HTTP_201_CREATED,
-    summary="create a single user record in database",
+    status_code=status.HTTP_202_ACCEPTED,
+    summary="Update user's password",
 )
 def update_password_controller(
     data: ChangePasswordModel,
 ):
     """
-    create a single user record in database
+    Update user's password at DB
     Args:
         user_id (str): user's user id
     Returns:
@@ -82,40 +84,45 @@ def update_password_controller(
     json_response = update_password_service(data)
     if type(json_response) is str:
         return JSONResponse(
-            status_code=status.HTTP_404_NOT_FOUND,
-            content={"detail":json_response}
+            status_code=status.HTTP_404_NOT_FOUND, content={"detail": json_response}
         )
     else:
         return json_response
 
+
 @router.post(
     "/token/",
     status_code=status.HTTP_202_ACCEPTED,
-    summary="update a single user record in database",
+    summary="Create a valid login token for the app",
 )
 def create_token_controller(
     token_object: TokenCreateModel,
 ):
     """
-    update a single user record in database
+    Create a new token for the user
     Args:
-        user_id (str): user's user id
+        token_object (TokenCreateModel): user's info required for the token
     Returns:
         JSON Response
     """
-    token = create_token_service(token_object)
+    user_id = token_object.user_id
+    raw_data = jsonable_encoder(token_object)
+    json_data = {}
+    json_data[user_id] = raw_data
+    token = create_token_service(json_data, user_id)
     return token
 
-@router.post(
-    "/token/validate/",
+
+@router.get(
+    "/token/validate/{token}",
     status_code=status.HTTP_202_ACCEPTED,
-    summary="delete a single user record in database",
+    summary="Validate a login token for the app",
 )
 def validate_token_controller(
-    token: str = Body(embed=True),
+    token: str,
 ):
     """
-    delete a single user record in database
+    Validate a login token for the app
     Args:
         user_id (str): user's user id
     Returns:

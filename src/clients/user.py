@@ -1,18 +1,19 @@
-import email
-from typing import List, Union
 import requests
 from fastapi import HTTPException, status
+
 from settings import Settings
 
 settings = Settings()
 
+
 def get_by_email_client(email: str):
     request_url = f"{settings.CRUD_API_URL}/user/email/{email}"
-    response = requests.get(
-        url=request_url
-    )
+    response = requests.get(url=request_url)
 
-    if response.status_code == status.HTTP_200_OK or response.status_code == status.HTTP_404_NOT_FOUND:
+    if (
+        response.status_code == status.HTTP_200_OK
+        or response.status_code == status.HTTP_404_NOT_FOUND
+    ):
         return response
     else:
         raise HTTPException(
@@ -24,14 +25,17 @@ def get_by_email_client(email: str):
         )
 
 
-def create_object_client(json_object):
+def create_object_client(json_object, login_token: str):
     request_url = f"{settings.CRUD_API_URL}/user/"
     email = json_object["email"]
     response = requests.post(
-        url=request_url, json=json_object
+        url=request_url, json=json_object, headers={"login-token": f"{login_token}"}
     )
 
-    if response.status_code == status.HTTP_201_CREATED or response.status_code == status.HTTP_406_NOT_ACCEPTABLE:
+    if (
+        response.status_code == status.HTTP_201_CREATED
+        or response.status_code == status.HTTP_406_NOT_ACCEPTABLE
+    ):
         return response
     else:
         raise HTTPException(
@@ -43,14 +47,17 @@ def create_object_client(json_object):
         )
 
 
-def update_password_client(json_object, user_id: str):
+def update_password_client(json_object, user_id: str, login_token: str):
     request_url = f"{settings.CRUD_API_URL}/user/update/password/user/id/{user_id}"
     email = json_object["email"]
     response = requests.patch(
-        url=request_url, json=json_object
+        url=request_url, json=json_object, headers={"login-token": f"{login_token}"}
     )
 
-    if response.status_code == status.HTTP_202_ACCEPTED or response.status_code == status.HTTP_404_NOT_FOUND:
+    if (
+        response.status_code == status.HTTP_202_ACCEPTED
+        or response.status_code == status.HTTP_404_NOT_FOUND
+    ):
         return response
     else:
         raise HTTPException(

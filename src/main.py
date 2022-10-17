@@ -3,7 +3,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 import controllers.user as user
-
 from settings import Settings
 
 settings = Settings()
