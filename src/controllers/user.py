@@ -58,13 +58,9 @@ def register_controller(
         JSON Response
     """
     json_response = register_service(data)
-    if type(json_response) is str:
-        return JSONResponse(
-            status_code=status.HTTP_409_CONFLICT, content={"detail": json_response}
-        )
-    else:
-        return json_response
-
+    return JSONResponse(
+        status_code=json_response.status_code, content=json_response.text
+    )
 
 @router.patch(
     "/update/password/",

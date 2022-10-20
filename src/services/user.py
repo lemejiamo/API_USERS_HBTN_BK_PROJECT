@@ -29,15 +29,12 @@ def login_service(data: LoginModel):
 
 
 def register_service(data: UserModel):
-    response_data = validate_user_by_email_service(data.email)
-    if response_data.status_code == status.HTTP_200_OK:
-        return "User already exists"
+    # esta validacion no es necesaria ya que el API CRUD
+    # hace la verificacion al momento de hacer la creacion
+
     request_data = jsonable_encoder(data)
-    json_token = create_token_service(request_data)
-    if json_token["token"]:
-        token = json_token["token"]
-        create_object_client(request_data, token)
-        return json_token
+    response = create_object_client(request_data)
+    return response
 
 
 def update_password_service(data: UserModel):

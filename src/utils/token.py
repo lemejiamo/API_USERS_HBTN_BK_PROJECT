@@ -1,9 +1,7 @@
 from datetime import datetime, timedelta
-
 from fastapi import HTTPException, status
 from fastapi.responses import JSONResponse
 from jwt import decode, encode, exceptions
-
 from settings import Settings
 
 settings = Settings()

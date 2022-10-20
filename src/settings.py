@@ -6,7 +6,7 @@ load_dotenv()
 
 
 class Settings:
-    PORT = int(os.getenv("PORT", 8000))
+    PORT = int(os.getenv("PORT", 8800))
 
     CRUD_API_URL = os.getenv("CRUD_API_URL")
 

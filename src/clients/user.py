@@ -25,11 +25,12 @@ def get_by_email_client(email: str):
         )
 
 
-def create_object_client(json_object, login_token: str):
+def create_object_client(json_object):
     request_url = f"{settings.CRUD_API_URL}/user/"
     email = json_object["email"]
     response = requests.post(
-        url=request_url, json=json_object, headers={"login-token": f"{login_token}"}
+        url=request_url,
+        json=json_object
     )
 
     if (
